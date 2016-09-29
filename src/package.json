@@ -1,0 +1,31 @@
+{
+  "name": "docker-mongo-graphql",
+  "version": "1.0.0",
+  "description": "A quick start setup for a docker based developer environment for an application using MongoDB, Mongoose, and GraphQL.",
+  "main": "docker-compose.yml",
+  "scripts": {
+    "start": "node server",
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Robert-W/docker-mongo-graphql.git"
+  },
+  "keywords": [
+    "docker",
+    "mongo",
+    "mongoose",
+    "node",
+    "express",
+    "graphql"
+  ],
+  "author": "Robert-W",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Robert-W/docker-mongo-graphql/issues"
+  },
+  "homepage": "https://github.com/Robert-W/docker-mongo-graphql#readme",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
+}

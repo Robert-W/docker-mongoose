@@ -1,0 +1,25 @@
+version: '2'
+
+services:
+  web:
+    depends_on:
+      - mongo
+    build:
+      context: src
+      dockerfile: Dockerfile
+    env_file: env/local.env
+    ports:
+      # Expose [HOST:CONTAINER]
+      - "3000:3000"
+    volumes:
+      - ./src/server.js:/srv/src/server.js
+    links:
+      - mongo
+  mongo:
+    image: mongo:3.3
+    ports:
+      - "27017"
+    volumes:
+      - mongo_data:/data/db
+volumes:
+  mongo_data:
