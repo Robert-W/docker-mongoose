@@ -12,6 +12,8 @@ services:
       # Expose [HOST:CONTAINER]
       - "3000:3000"
     volumes:
+      - ./src/app:/srv/src/app
+      - ./src/config:/srv/src/config
       - ./src/server.js:/srv/src/server.js
     links:
       - mongo
