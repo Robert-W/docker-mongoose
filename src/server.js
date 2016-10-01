@@ -1,8 +1,18 @@
-const express = require('express');
-const app = express();
+const mongoose = require('./config/lib/mongoose');
+const express = require('./config/lib/express');
+const logger = require('./config/lib/bunyan');
+const config = require('./config/config');
 
-app.get('/', function (req, res) {
-  res.end('Hello World');
+logger.info('Initializing Node server');
+
+mongoose.connect().then(function () {
+  logger.info('Mongoose connected, continuing with application setup');
+  // Initialize express
+  const app = express.init();
+  // Start the app on the configured port
+  app.listen(config.port);
+  // Initializing complete
+  logger.info('App listeneing on port', config.port);
+}).catch(function () {
+  process.exit(1);
 });
-
-app.listen(process.env.PORT || 3000);
