@@ -6,6 +6,5 @@
 module.exports = {
   app: {
     title: 'Development'
-  },
-  port: 5000
+  }
 };

@@ -14,9 +14,10 @@ const initConfig = function initConfig () {
   try {
     environmentConfig = require(path.resolve(`./config/env/${process.env.NODE_ENV}`));
   } catch (err) {
+    logger.warn(`No configuration files found matching environemnt ${process.env.NODE_ENV}`);
     environmentConfig = {};
   }
-  // Merge in defaults and environment config, not yet created
+  // Merge in defaults and environment config
   const config = Object.assign({}, defaultConfig, environmentConfig);
   // Add any extras if necessary to config
   return config;
