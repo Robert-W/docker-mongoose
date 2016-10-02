@@ -14,8 +14,8 @@ module.exports = {
   mongo: {
     db: 'mongodb://localhost/docker-test',
     admin: {
-      username: 'admin',
-      password: 'P@ssword'
+      username: process.env.MONGO_ADMIN_USERNAME,
+      password: process.env.MONGO_ADMIN_PASSWORD
     }
   },
 
