@@ -31,7 +31,5 @@ module.exports.connect = function connect () {
         });
       }
     });
-    resolve();
-
   });
 };

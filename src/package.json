@@ -1,5 +1,5 @@
 {
-  "name": "docker-mongo-graphql",
+  "name": "docker-mongoose",
   "version": "1.0.0",
   "description": "A quick start setup for a docker based developer environment for an application using MongoDB, Mongoose, and GraphQL.",
   "main": "docker-compose.yml",
