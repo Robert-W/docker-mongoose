@@ -1,7 +1,7 @@
 const path = require('path');
 const mongoose = require('mongoose');
-const logger = require(path.resolve('./config/lib/bunyan'));
 const config = require(path.resolve('./config/config'));
+const logger = require(path.resolve('./config/lib/winston'));
 
 const loadMongooseModels = function loadMongooseModels () {
   logger.info('Loading mongoose models');
@@ -18,7 +18,7 @@ module.exports.connect = function connect () {
     // Attempt connection
     const db = mongoose.connect(config.mongo.db, err => {
       if (err) {
-        logger.fatal({ err }, 'Could not connect to Mongo');
+        logger.error('Could not connect to Mongo', { err });
         reject(err);
       } else {
         logger.info('Connected to Mongo');
@@ -26,7 +26,7 @@ module.exports.connect = function connect () {
         loadMongooseModels().then(() => {
           resolve(db);
         }).catch(err => {
-          logger.fatal({ err }, 'Could not load Mongoose models');
+          logger.error('Could not load Mongoose models', { err });
           reject(err);
         });
       }

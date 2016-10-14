@@ -1,5 +1,5 @@
 const path = require('path');
-const logger = require(path.resolve('./config/lib/bunyan'));
+const logger = require(path.resolve('./config/lib/winston'));
 
 const initConfig = function initConfig () {
   // Validate NODE_ENV
