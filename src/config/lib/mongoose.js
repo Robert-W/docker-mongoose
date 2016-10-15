@@ -6,9 +6,14 @@ const logger = require(path.resolve('./config/lib/winston'));
 const loadMongooseModels = function loadMongooseModels () {
   logger.info('Loading mongoose models');
   return new Promise((resolve, reject) => {
-    // Load mongoose models via globs so they can exist all over the applicaton
-    // in areas that make the most sense
-    resolve();
+    try {
+      config.files.models.forEach(model => {
+        require(path.resolve(model));
+      });
+      resolve();
+    } catch (err) {
+      reject(err);
+    }
   });
 };
 
@@ -18,7 +23,7 @@ module.exports.connect = function connect () {
     // Attempt connection
     const db = mongoose.connect(config.mongo.db, err => {
       if (err) {
-        logger.error('Could not connect to Mongo', { err });
+        logger.error('Could not connect to Mongo', err);
         reject(err);
       } else {
         logger.info('Connected to Mongo');
@@ -26,7 +31,7 @@ module.exports.connect = function connect () {
         loadMongooseModels().then(() => {
           resolve(db);
         }).catch(err => {
-          logger.error('Could not load Mongoose models', { err });
+          logger.error('Could not load Mongoose models', err );
           reject(err);
         });
       }

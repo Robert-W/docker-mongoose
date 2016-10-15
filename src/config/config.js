@@ -1,5 +1,18 @@
 const path = require('path');
+const glob = require('glob');
+const assets = require('./assets');
 const logger = require(path.resolve('./config/lib/winston'));
+
+const getFilesConfig = function getFilesConfig (assets) {
+  return {
+    files: {
+      // Get mongoose models
+      models: glob.sync(assets.models),
+      // Get express routes
+      routes: glob.sync(assets.routes)
+    }
+  };
+};
 
 const initConfig = function initConfig () {
   // Validate NODE_ENV
@@ -9,7 +22,7 @@ const initConfig = function initConfig () {
   }
   // Get default config
   const defaultConfig = require(path.resolve('./config/env/default'));
-  // Get environment config and validate it
+  // Get environment config
   let environmentConfig;
   try {
     environmentConfig = require(path.resolve(`./config/env/${process.env.NODE_ENV}`));
@@ -17,10 +30,10 @@ const initConfig = function initConfig () {
     logger.warn(`No configuration files found matching environemnt ${process.env.NODE_ENV}`);
     environmentConfig = {};
   }
-  // Merge in defaults and environment config
-  const config = Object.assign({}, defaultConfig, environmentConfig);
-  // Add any extras if necessary to config
-  return config;
+  // Get global files config
+  const filesConfig = getFilesConfig(assets);
+  // Merge in all config options
+  return Object.assign({}, defaultConfig, environmentConfig, filesConfig);
 };
 
 module.exports = initConfig();
