@@ -30,9 +30,9 @@ module.exports.connect = function connect () {
         // Try to load all our models
         loadMongooseModels().then(() => {
           resolve(db);
-        }).catch(err => {
-          logger.error('Could not load Mongoose models', err );
-          reject(err);
+        }).catch(error => {
+          logger.error('Could not load Mongoose models', error);
+          reject(error);
         });
       }
     });

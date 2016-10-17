@@ -10,7 +10,7 @@ const UserType = new graphql.GraphQLObjectType({
       lastName: { type: graphql.GraphQLString },
       username: { type: graphql.GraphQLString },
       email: { type: graphql.GraphQLString },
-      id: { type: graphql.GraphQLString }
+      _id: { type: graphql.GraphQLString }
     };
   }
 });
@@ -22,10 +22,10 @@ const UserQueryType = new graphql.GraphQLObjectType({
     user: {
       type: UserType,
       args: {
-        id: { type: graphql.GraphQLString }
+        _id: { type: graphql.GraphQLString }
       },
       resolve: (root, args) => {
-        return people[args.id];
+        return people[args._id];
       }
     }
   }

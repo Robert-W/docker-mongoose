@@ -1,34 +1,34 @@
 {
-  "1": {
+  "_1": {
     "email": "john@gmail.com",
     "username": "johnnyBoy",
     "firstName": "John",
     "lastName": "Doe",
-    "id": "1",
+    "_id": "1",
     "friends": ["2", "3"]
   },
-  "2": {
+  "_2": {
     "email": "jane@gmail.com",
     "username": "janey",
     "firstName": "Jane",
     "lastName": "Doe",
-    "id": "2",
+    "_id": "2",
     "friends": ["1", "4"]
   },
-  "3": {
+  "_3": {
     "email": "bill@gmail.com",
     "username": "billEE",
     "firstName": "Bill",
     "lastName": "Johnson",
-    "id": "3",
+    "_id": "3",
     "friends": ["1", "4"]
   },
-  "4": {
+  "_4": {
     "email": "bob@gmail.com",
     "username": "bobD",
     "firstName": "Bob",
     "lastName": "Dole",
-    "id": "4",
+    "_id": "4",
     "friends": ["2", "3"]
   }
 }

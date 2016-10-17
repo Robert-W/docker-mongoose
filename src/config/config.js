@@ -16,7 +16,7 @@ const getFilesConfig = function getFilesConfig (assets) {
 
 const initConfig = function initConfig () {
   // Validate NODE_ENV
-  if (process.env.NODE_ENV == null) {
+  if (process.env.NODE_ENV === null) {
     logger.warn('NODE_ENV is not set, setting to "development"');
     process.env.NODE_ENV = 'development';
   }
