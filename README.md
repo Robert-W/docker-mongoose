@@ -8,6 +8,11 @@ Docker - Mongoose (WIP)
 3. From root, run `docker-compose up`.
 4. Visit `localhost:3000` and enjoy.
 
+### Running tests
+You currently have two options for running tests:
+1. If container is already running(via `docker-compose up`), just run `docker-compose exec web npm test`.
+2. If the container is not running, you can just run `docker-compose run web npm test`.
+
 ### Things still working on
 1. Framework in general, eventually one could drop a folder under app with a certain folder structure and it would just plug that service into the application.
 2. Testing harness and automation for better CI and regression testing.
