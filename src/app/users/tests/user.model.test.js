@@ -8,19 +8,19 @@ const mock = {
     firstName: 'John',
     lastName: 'Doe',
     username: 'jdoe',
-    password: 'JDoeP@ss',
+    password: 'JD0eP@ss',
     email: 'jdoe@gmail.com'
   },
   jane: {
     firstName: 'Jane',
     lastName: 'Doe',
     username: 'janey',
-    password: 'JaneyP@ss',
+    password: '12JaneyP@ss',
     email: 'janey@gmail.com'
   }
 };
 
-let, user1, user2, user3;
+let user1, user2, user3;
 
 // Mocha Tests
 describe('User Model Unit Tests:', () => {
@@ -28,8 +28,9 @@ describe('User Model Unit Tests:', () => {
   before(done => {
     User.remove().exec(() => {
       user1 = new User(mock.john);
-      user2 = new User(mock.john);
-      user3 = new User(mock.jane);
+      user2 = new User(mock.jane);
+      user3 = new User(mock.john);
+      done();
     });
   });
 
@@ -42,45 +43,69 @@ describe('User Model Unit Tests:', () => {
 
   describe('Method Save', () => {
 
-    it('should allow john to save without issues', () => {
-
+    it('should allow john to save without issues', done => {
+      user1.save(done);
     });
 
-    it('should now contain a single user', () => {
-
+    it('should now contain a single user', done => {
+      User.find().exec((err, users) => {
+        expect(users).to.have.length(1);
+        done();
+      });
     });
 
-    it('should allow a different user to save without issues', () => {
-
+    it('should allow a different user to save without issues', done => {
+      user2.save(err => {
+        expect(err).to.not.exist;
+        done();
+      });
     });
 
     it('should now contain two users', () => {
-
+      User.find().exec((err, users) => {
+        expect(users).to.have.length(2);
+        done();
+      });
     });
 
     it('should prevent saving a user with the same username', () => {
-
+      user3.save(err => {
+        expect(err).to.exist;
+        done();
+      });
     });
 
-    it('should prevent saving without a firstName or lastName', () => {
+    it('should prevent saving without a firstName', () => {
+      user1.firstName = '';
+      user1.save(err => {
+        expect(err).to.exist;
+      });
+    });
 
+    it('should prevent saving without a lastName', () => {
+      user1.firstName = 'John';
+      user1.lastName = '';
+      user1.save(err => {
+        expect(err).to.exist;
+      });
     });
 
     it('should prevent saving without a valid password', () => {
-
+      user1.lastName = 'Doe';
+      user1.password = 'jdoepass';
+      user1.save(err => {
+        expect(err).to.exist;
+      });
     });
 
     it('should prevent saving without a valid email', () => {
-
+      user1.password = 'JDoeP@ss';
+      user1.email = 'jdoe@gmail';
+      user1.save(err => {
+        expect(err).to.exist;
+      });
     });
 
-  });
-
-  it('should end with two users in the collection', done => {
-    User.find().exec((err, users) => {
-      expect(users).to.have.length(2);
-      done();
-    });
   });
 
   after(() => {

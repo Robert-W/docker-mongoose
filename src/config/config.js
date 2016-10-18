@@ -9,14 +9,16 @@ const getFilesConfig = function getFilesConfig (assets) {
       // Get mongoose models
       models: glob.sync(assets.models),
       // Get express routes
-      routes: glob.sync(assets.routes)
+      routes: glob.sync(assets.routes),
+      // Get test files
+      tests: glob.sync(assets.tests)
     }
   };
 };
 
 const initConfig = function initConfig () {
   // Validate NODE_ENV
-  if (process.env.NODE_ENV === null) {
+  if (process.env.NODE_ENV === null || process.env.NODE_ENV === undefined) {
     logger.warn('NODE_ENV is not set, setting to "development"');
     process.env.NODE_ENV = 'development';
   }

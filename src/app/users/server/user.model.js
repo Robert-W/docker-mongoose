@@ -66,7 +66,7 @@ UserSchema.index({
 * Lifecycle hooks
 */
 
-UserSchema.pre('save', next => {
+UserSchema.pre('save', function (next) {
   if (this.isModified('password')) {
     this.salt = new Buffer(crypto.randomBytes(16).toString('base64'), 'base64');
     this.password = this.hashPassword(this.password, this.salt);
