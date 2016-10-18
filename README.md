@@ -10,6 +10,7 @@ Docker - Mongoose (WIP)
 
 ### Running tests
 You currently have two options for running tests:
+
 1. If container is already running(via `docker-compose up`), just run `docker-compose exec web npm test`.
 2. If the container is not running, you can just run `docker-compose run web npm test`.
 
