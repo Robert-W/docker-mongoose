@@ -27,13 +27,17 @@
   },
   "homepage": "https://github.com/Robert-W/docker-mongo-graphql#readme",
   "dependencies": {
+    "body-parser": "^1.15.2",
     "compression": "^1.6.2",
     "express": "^4.14.0",
     "express-graphql": "^0.5.4",
     "glob": "^7.1.1",
     "graphql": "^0.7.2",
     "helmet": "^2.3.0",
+    "method-override": "^2.3.6",
     "mongoose": "^4.6.2",
+    "pug": "^2.0.0-beta6",
+    "serve-favicon": "^2.3.0",
     "winston": "^2.2.0"
   },
   "devDependencies": {

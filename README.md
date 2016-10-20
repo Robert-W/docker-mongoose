@@ -15,6 +15,9 @@ You currently have two options for running tests:
 2. If the container is not running, you can just run `docker-compose run web npm test`.
 
 ### Things still working on
-1. Framework in general, eventually one could drop a folder under app with a certain folder structure and it would just plug that service into the application.
-2. Testing harness and automation for better CI and regression testing.
-3. Extent??? This should be a simple example of how to setup an application and not include too much. GraphQL may not need to be a part of it but I would like to include it as an example. So I may need a simple index page as an example and one or two GraphQL routes.
+1. Add users to Mongoose and let GraphQL wrap that
+2. Add initial user for login
+3. Build a login screen
+4. Finish Express configuration
+5. Setup the ability to serve static assets
+6. Add some client dependencies and modules (React and possibly React Router)
