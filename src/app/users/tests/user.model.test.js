@@ -61,48 +61,52 @@ describe('User Model Unit Tests:', () => {
       });
     });
 
-    it('should now contain two users', () => {
+    it('should now contain two users', done => {
       User.find().exec((err, users) => {
         expect(users).to.have.length(2);
         done();
       });
     });
 
-    it('should prevent saving a user with the same username', () => {
+    it('should prevent saving a user with the same username', done => {
       user3.save(err => {
         expect(err).to.exist;
         done();
       });
     });
 
-    it('should prevent saving without a firstName', () => {
+    it('should prevent saving without a firstName', done => {
       user1.firstName = '';
       user1.save(err => {
         expect(err).to.exist;
+        done();
       });
     });
 
-    it('should prevent saving without a lastName', () => {
+    it('should prevent saving without a lastName', done => {
       user1.firstName = 'John';
       user1.lastName = '';
       user1.save(err => {
         expect(err).to.exist;
+        done();
       });
     });
 
-    it('should prevent saving without a valid password', () => {
+    it('should prevent saving without a valid password', done => {
       user1.lastName = 'Doe';
       user1.password = 'jdoepass';
       user1.save(err => {
         expect(err).to.exist;
+        done();
       });
     });
 
-    it('should prevent saving without a valid email', () => {
-      user1.password = 'JDoeP@ss';
+    it('should prevent saving without a valid email', done => {
+      user1.password = 'JD0eP@ss';
       user1.email = 'jdoe@gmail';
       user1.save(err => {
         expect(err).to.exist;
+        done();
       });
     });
 
