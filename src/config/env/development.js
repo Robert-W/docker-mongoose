@@ -7,10 +7,6 @@ module.exports = {
 
   port: process.env.PORT || 3000,
 
-  app: {
-    title: 'Development'
-  },
-
   mongo: {
     db: 'mongodb://mongo/docker-mongoose',
     admin: {

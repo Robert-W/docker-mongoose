@@ -19,5 +19,4 @@ You currently have two options for running tests:
 2. Add initial user for login
 3. Build a login screen
 4. Finish Express configuration
-5. Setup the ability to serve static assets
-6. Add some client dependencies and modules (React and possibly React Router)
+5. Add some client dependencies and modules (React and possibly React Router)

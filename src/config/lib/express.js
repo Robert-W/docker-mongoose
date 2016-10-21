@@ -1,7 +1,10 @@
 const methodOverride = require('method-override');
+const connectMongo = require('connect-mongo');
 const compression = require('compression');
+const session = require('express-session');
 const bodyParser = require('body-parser');
 const favicon = require('serve-favicon');
+const passport = require('passport');
 const express = require('express');
 const helmet = require('helmet');
 const path = require('path');
@@ -25,8 +28,20 @@ const configureMiddleware = function configureMiddleware (app) {
   // Setup body parser
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
-  // Setup methodOverride so I can use put and delete, just need to include _method in the request
-  // app.use(methodOverride());
+  // Setup methodOverride so I can use put and delete
+  app.use(methodOverride());
+};
+
+/**
+* @function configureLocalVariables
+* @summary Configure local variables
+* @param {Express.app} app
+*/
+const configureLocalVariables = function configureLocalVariables (app) {
+  app.locals.title = 'Robert-W Rocks';
+  app.locals.author = 'Robert-W';
+  app.locals.keywords = 'Express, Pug, GraphQL, Mongo, Mongoose, Docker';
+  app.locals.description = 'A quick start setup for a docker based developer environment for an application using MongoDB, Mongoose, and GraphQL.';
 };
 
 /**
@@ -40,6 +55,38 @@ const configureViewEngine = function configureViewEngine (app) {
   app.set('views', [
     './app/home/views'
   ]);
+};
+
+/**
+* @function configureSession
+* @summary Configure express session
+* @param {Express.app} app
+*/
+const configureSession = function configureSession (app, db) {
+  const MongoStore = connectMongo(session);
+  app.set('trust proxy', config.auth.trustProxy);
+  app.use(session({
+    resave: true,
+    saveUninitialized: true,
+    secret: config.auth.secret,
+    cookie: config.auth.cookie,
+    store: new MongoStore({
+      db: db.collection.db,
+      collection: config.auth.collection
+    })
+  }));
+};
+
+/**
+* @function configurePassport
+* @summary Configure passport authentication
+* @param {Express.app} app
+*/
+const configurePassport = function configurePassport (app) {
+  app.use(passport.initialize());
+  app.use(passport.session());
+  // Init my passport lib
+  require(path.resolve('./config/lib/passport')).init();
 };
 
 /**
@@ -65,6 +112,15 @@ const configureHelmetHeaders = function configureHelmetHeaders (app) {
   * TODO: Add content security policy configuration via helmet.contentSecurityPolicy({ ... })
   * @see https://github.com/helmetjs/helmet
   */
+};
+
+/**
+* @function configureStaticAssetPath
+* @summary Configure static assets
+* @param {Express.app} app
+*/
+const configureStaticAssetPath = function configureStaticAssetPath (app) {
+  app.use(express.static('public'));
 };
 
 /**
@@ -103,10 +159,18 @@ module.exports.init = function init (db) {
   var app = express();
   // Configure express middleware
   configureMiddleware(app);
+  // Configure local variables
+  configureLocalVariables(app);
   // Configure view engine
   configureViewEngine(app);
+  // Configure express session
+  configureSession(app, db);
+  // Configure passport authentication
+  configurePassport(app);
   // Configure helmet security headers
   configureHelmetHeaders(app);
+  // Configure static asset path
+  configureStaticAssetPath(app);
   // Setup valid server routes
   loadServerRoutes(app);
   // Setup error routes
