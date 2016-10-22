@@ -3,6 +3,7 @@ const crypto = require('crypto');
 const path = require('path');
 const util = require(path.resolve('./config/utilities'));
 const config = require(path.resolve('./config/config'));
+const name = 'User';
 
 // Invalid password string
 const rules = config.passwordRequirements.rules.map(rule => rule.description);
@@ -89,4 +90,4 @@ UserSchema.methods.authenticate = function authenticate (password) {
 /**
 * Register the model
 */
-mongoose.model('User', UserSchema);
+mongoose.model(name, UserSchema, name);

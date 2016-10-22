@@ -21,7 +21,7 @@ module.exports.connect = function connect () {
   logger.info('Initializing Mongo connection');
   return new Promise((resolve, reject) => {
     // Attempt connection
-    const db = mongoose.connect(config.mongo.db, err => {
+    mongoose.connect(config.mongo.db, err => {
       if (err) {
         logger.error('Could not connect to Mongo', err);
         reject(err);
@@ -29,7 +29,7 @@ module.exports.connect = function connect () {
         logger.info('Connected to Mongo');
         // Try to load all our models
         loadMongooseModels().then(() => {
-          resolve(db);
+          resolve(mongoose);
         }).catch(error => {
           logger.error('Could not load Mongoose models', error);
           reject(error);

@@ -1,5 +1,5 @@
+const schemas = require('../schemas/user.schema');
 const graphqlHTTP = require('express-graphql');
-const schemas = require('./user.schema');
 
 /**
 * @name exports

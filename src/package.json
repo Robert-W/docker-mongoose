@@ -5,7 +5,9 @@
   "main": "docker-compose.yml",
   "scripts": {
     "start": "node server",
-    "test": "node config/test"
+    "test": "node config/scripts/test",
+    "drop": "node config/scripts/drop",
+    "populate": "node config/scripts/populate"
   },
   "repository": {
     "type": "git",

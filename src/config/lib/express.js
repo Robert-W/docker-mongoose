@@ -1,10 +1,11 @@
 const methodOverride = require('method-override');
-const connectMongo = require('connect-mongo');
 const compression = require('compression');
 const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 const bodyParser = require('body-parser');
 const favicon = require('serve-favicon');
 const passport = require('passport');
+const mongoose = require('mongoose');
 const express = require('express');
 const helmet = require('helmet');
 const path = require('path');
@@ -63,7 +64,6 @@ const configureViewEngine = function configureViewEngine (app) {
 * @param {Express.app} app
 */
 const configureSession = function configureSession (app, db) {
-  const MongoStore = connectMongo(session);
   app.set('trust proxy', config.auth.trustProxy);
   app.use(session({
     resave: true,
@@ -71,7 +71,7 @@ const configureSession = function configureSession (app, db) {
     secret: config.auth.secret,
     cookie: config.auth.cookie,
     store: new MongoStore({
-      db: db.collection.db,
+      mongooseConnection: db.connection,
       collection: config.auth.collection
     })
   }));

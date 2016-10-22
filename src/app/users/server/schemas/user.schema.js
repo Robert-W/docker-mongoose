@@ -1,4 +1,4 @@
-const people = require('./data.json'); // Temp until mongoose and mongo are up and running with user models
+const people = require('../data.json'); // Temp until mongoose and mongo are up and running with user models
 const graphql = require('graphql');
 
 const UserType = new graphql.GraphQLObjectType({

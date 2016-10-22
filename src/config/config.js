@@ -3,15 +3,17 @@ const glob = require('glob');
 const assets = require('./assets');
 const logger = require(path.resolve('./config/lib/winston'));
 
-const getFilesConfig = function getFilesConfig (assets) {
+const getFilesConfig = function getFilesConfig (deps) {
   return {
     files: {
+      // Get populate scripts
+      scripts: glob.sync(deps.scripts),
       // Get mongoose models
-      models: glob.sync(assets.models),
+      models: glob.sync(deps.models),
       // Get express routes
-      routes: glob.sync(assets.routes),
+      routes: glob.sync(deps.routes),
       // Get test files
-      tests: glob.sync(assets.tests)
+      tests: glob.sync(deps.tests)
     }
   };
 };

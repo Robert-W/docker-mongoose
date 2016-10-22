@@ -4,7 +4,8 @@
 * @summary location of all assets
 */
 module.exports = {
-  routes: 'app/*/server/*.routes.js',
-  models: 'app/*/server/*.model.js',
+  scripts: 'app/*/script/**/*.js',
+  routes: 'app/*/server/routes/**/*.js',
+  models: 'app/*/server/models/**/*.js',
   tests: 'app/*/tests/**/*.js'
 };
