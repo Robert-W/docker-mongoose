@@ -1,4 +1,7 @@
 extends layout.pug
 
 block content
-  h1 Im home
+  form(method='post', action='auth/signin')
+    input(name='username')
+    input(type='password', name='password')
+    input(type='submit', value='submit')

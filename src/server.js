@@ -5,10 +5,10 @@ const config = require('./config/config');
 
 logger.info('Initializing Node server');
 
-mongoose.connect().then(db => {
+mongoose.connect().then(connection => {
   logger.info('Mongoose connected');
   // Initialize express
-  const app = express.init(db);
+  const app = express.init(connection);
   // Start the app on the configured port
   app.listen(config.port);
   // Initializing complete

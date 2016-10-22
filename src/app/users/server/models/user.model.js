@@ -88,6 +88,21 @@ UserSchema.methods.authenticate = function authenticate (password) {
 };
 
 /**
+* Static methods
+*/
+
+UserSchema.statics.makeCopy = function makeCopy (user) {
+  return {
+    firstName: user.firstName,
+    lastName: user.lastName,
+    username: user.username,
+    created: user.created,
+    updated: user.updated,
+    email: user.email
+  };
+};
+
+/**
 * Register the model
 */
 mongoose.model(name, UserSchema, name);

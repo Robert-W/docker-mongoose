@@ -29,7 +29,7 @@ module.exports.connect = function connect () {
         logger.info('Connected to Mongo');
         // Try to load all our models
         loadMongooseModels().then(() => {
-          resolve(mongoose);
+          resolve(mongoose.connection);
         }).catch(error => {
           logger.error('Could not load Mongoose models', error);
           reject(error);

@@ -1,5 +1,8 @@
 const User = require('mongoose').model('User');
 const passport = require('passport');
+const glob = require('glob');
+const path = require('path');
+const logger = require(path.resolve('./config/lib/winston'));
 
 /**
 * @function init
@@ -17,6 +20,15 @@ module.exports.init = function init () {
     User.findOne({ _id: id }, '-salt -password', (err, user) => {
       done(err, user);
     });
+  });
+
+  // Load all strategies
+  glob.sync('config/strategies/**/*.js').forEach(strategy => {
+    try {
+      require(path.resolve(strategy))();
+    } catch (err) {
+      logger.error('Could not load strategies', err);
+    }
   });
 
 };

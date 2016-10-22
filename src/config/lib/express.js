@@ -5,7 +5,6 @@ const MongoStore = require('connect-mongo')(session);
 const bodyParser = require('body-parser');
 const favicon = require('serve-favicon');
 const passport = require('passport');
-const mongoose = require('mongoose');
 const express = require('express');
 const helmet = require('helmet');
 const path = require('path');
@@ -63,7 +62,7 @@ const configureViewEngine = function configureViewEngine (app) {
 * @summary Configure express session
 * @param {Express.app} app
 */
-const configureSession = function configureSession (app, db) {
+const configureSession = function configureSession (app, connection) {
   app.set('trust proxy', config.auth.trustProxy);
   app.use(session({
     resave: true,
@@ -71,7 +70,7 @@ const configureSession = function configureSession (app, db) {
     secret: config.auth.secret,
     cookie: config.auth.cookie,
     store: new MongoStore({
-      mongooseConnection: db.connection,
+      mongooseConnection: connection,
       collection: config.auth.collection
     })
   }));
@@ -154,7 +153,7 @@ const loadErrorRoutes = function loadErrorRoutes (app) {
   });
 };
 
-module.exports.init = function init (db) {
+module.exports.init = function init (connection) {
   logger.info('Initializing Express');
   var app = express();
   // Configure express middleware
@@ -164,7 +163,7 @@ module.exports.init = function init (db) {
   // Configure view engine
   configureViewEngine(app);
   // Configure express session
-  configureSession(app, db);
+  configureSession(app, connection);
   // Configure passport authentication
   configurePassport(app);
   // Configure helmet security headers
