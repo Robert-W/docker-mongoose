@@ -15,6 +15,6 @@ You currently have two options for running tests:
 2. If the container is not running, you can just run `docker-compose run web npm test`.
 
 ### Things still working on
-1. Add some mock users to Mongoose, may need a friends property, and let GraphQL wrap that
+1. Add some mock users to Mongoose, may need a friends property to demonstrate GraphQL
 2. Add some client dependencies and modules (React and possibly React Router)
 3. Integrate Webpack 2 and Hot Module Replacement

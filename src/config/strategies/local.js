@@ -11,12 +11,8 @@ module.exports = function () {
       if (err) {
         return done(err);
       }
-      // Could not find user
-      if (!user) {
-        return done(null, false, { message: 'Incorrect username/password' });
-      }
-      // Invalid password
-      if (!user.authenticate(password)) {
+      // Invalid username or password
+      if (!user || !user.authenticate(password)) {
         return done(null, false, { message: 'Incorrect username/password' });
       }
       // There good

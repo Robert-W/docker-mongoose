@@ -1,10 +1,10 @@
 // Set the env to test before requiring the config file
 process.env.NODE_ENV = 'test';
-const mongoose = require('./lib/mongoose');
-const logger = require('./lib/winston');
-const config = require('./config.js');
 const Mocha = require('mocha');
 const path = require('path');
+const mongoose = require(path.resolve('./config/lib/mongoose'));
+const logger = require(path.resolve('./config/lib/winston'));
+const config = require(path.resolve('./config/config.js'));
 
 const mocha = new Mocha({
   ui: 'bdd',
