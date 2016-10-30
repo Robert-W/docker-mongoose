@@ -40,7 +40,7 @@ module.exports = {
   auth: {
     strategy: 'local',
     collection: 'sessions',
-    secret: 'Kitten Hooligan',
+    secret: 'asDas34DR42liji!$asdfa@asdf',
     cookie: {
       maxAge: 1000 * 60 * 60 * 24
     }
