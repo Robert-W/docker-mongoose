@@ -44,7 +44,10 @@ describe('User Model Unit Tests:', () => {
   describe('Method Save', () => {
 
     it('should allow john to save without issues', done => {
-      user1.save(done);
+      user1.save(err => {
+        expect(err).to.not.exist;
+        done();
+      });
     });
 
     it('should now contain a single user', done => {

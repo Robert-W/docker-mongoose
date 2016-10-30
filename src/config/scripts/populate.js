@@ -14,8 +14,7 @@ mongoose.connect().then(() => {
   const promises = config.files.scripts.map((file) => {
     const script = require(path.resolve(file));
     if (!script.populateCollection) {
-      logger.error('Script missing populateCollection function');
-      process.exit(0);
+      logger.error('Script missing populateCollection function', file);
     }
     return script.populateCollection();
   });

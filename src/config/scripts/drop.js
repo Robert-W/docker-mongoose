@@ -14,8 +14,7 @@ mongoose.connect().then(() => {
   const promises = config.files.scripts.map((file) => {
     const script = require(path.resolve(file));
     if (!script.dropCollection) {
-      logger.error('Script missing dropCollection function');
-      process.exit(0);
+      logger.error('Script missing dropCollection function', file);
     }
     return script.dropCollection();
   });
