@@ -13,7 +13,9 @@ const getFilesConfig = function getFilesConfig (deps) {
       // Get express routes
       routes: glob.sync(deps.routes),
       // Get test files
-      tests: glob.sync(deps.tests)
+      tests: glob.sync(deps.tests),
+      // Get pages
+      views: glob.sync(deps.views)
     }
   };
 };

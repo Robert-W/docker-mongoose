@@ -52,9 +52,7 @@ const configureLocalVariables = function configureLocalVariables (app) {
 const configureViewEngine = function configureViewEngine (app) {
   // Set the engine and the view paths
   app.set('view engine', 'pug');
-  app.set('views', [
-    './app/home/views'
-  ]);
+  app.set('views', config.files.views);
 };
 
 /**

@@ -11,6 +11,6 @@ module.exports = function (app) {
   * @memberof Router
   */
   app.get('/', (req, res) => {
-    res.render('index');
+    res.render('home');
   });
 };
