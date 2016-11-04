@@ -4,9 +4,9 @@
   "description": "A quick start setup for a docker based developer environment for an application using MongoDB, Mongoose, and GraphQL.",
   "main": "docker-compose.yml",
   "scripts": {
-    "start": "node config/scripts/nodemon",
-    "test": "node config/scripts/test",
     "drop": "node config/scripts/drop",
+    "test": "node config/scripts/test",
+    "start": "node config/scripts/watch",
     "populate": "node config/scripts/populate"
   },
   "repository": {
