@@ -1,3 +1,6 @@
+const autoprefixer = require('autoprefixer');
+const webpack = require('webpack');
+
 /**
 * @name exports
 * @static
@@ -13,6 +16,32 @@ module.exports = {
       username: process.env.MONGO_ADMIN_USERNAME,
       password: process.env.MONGO_ADMIN_PASSWORD
     }
+  },
+
+  webpack: {
+    progress: true,
+    profile: true,
+    postcss: function () {
+      return [autoprefixer];
+    },
+    plugins: [
+      new webpack.DefinePlugin({ 'process.env': {'NODE_ENV': '"production"'}}),
+      new webpack.optimize.OccurrenceOrderPlugin(),
+      new webpack.optimize.DedupePlugin(),
+      new webpack.optimize.UglifyJsPlugin({
+        compressor: {
+          screw_ie8: true,
+          warnings: false
+        },
+        mangle: {
+          screw_ie8: true
+        },
+        output: {
+          comments: false,
+          screw_ie8: true
+        }
+      })
+    ]
   },
 
   auth: {

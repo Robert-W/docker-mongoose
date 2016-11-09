@@ -1,4 +1,5 @@
 const assets = require('./assets');
+const config = require('./config');
 const path = require('path');
 const glob = require('glob');
 
@@ -26,20 +27,17 @@ const glob = require('glob');
 */
 const makeWebpackConfig = function makeWebpackConfig () {
   // Read in all the entry files
-  const configs = glob.sync(assets.webpack).map(file => require(path.resolve(file)));
+  const packs = glob.sync(assets.webpack).map(file => require(path.resolve(file)));
   // Merge all the entries together
-  const entries = configs.reduce(function (all, config) { return Object.assign(all, config.entry); }, {});
+  const entries = packs.reduce(function (all, pack) { return Object.assign(all, pack.entry); }, {});
   // Generate an array of HtmlWebpackPlugin options
-  const htmlWebpackPlugins = configs.reduce((plugins, config) => {
-    return Object.keys(config.html).map(key => config.html[key]);
-  }, []);
+  // const htmlWebpackPlugins = packs.reduce((plugins, pack) => {
+  //   return Object.keys(pack.html).map(key => pack.html[key]);
+  // }, []);
   // Return the webpack config
-  return {
-    entry: entries,
-    plugins: [
-      ...htmlWebpackPlugins
-    ]
-  };
+  return Object.assign({}, config.webpack, {
+    entry: entries
+  });
 };
 
 console.log(makeWebpackConfig());

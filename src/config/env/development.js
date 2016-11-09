@@ -1,3 +1,5 @@
+const webpack = require('webpack');
+
 /**
 * @name exports
 * @static
@@ -13,6 +15,15 @@ module.exports = {
       username: process.env.MONGO_ADMIN_USERNAME,
       password: process.env.MONGO_ADMIN_PASSWORD
     }
+  },
+
+  webpack: {
+    devtool: 'source-map',
+    debug: true,
+    cache: true,
+    plugins: [
+      new webpack.NoErrorsPlugin()
+    ]
   }
 
 };
