@@ -23,7 +23,7 @@ mongoose.connect().then(() => {
     logger.info('Successfully populated all collections');
     process.exit(0);
   }).catch(err => {
-    logger.error('Unable to populate all collections', err);
+    logger.error('Unable to populate collections', err);
     process.exit(err);
   });
 }).catch(err => {

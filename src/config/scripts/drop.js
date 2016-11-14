@@ -23,7 +23,7 @@ mongoose.connect().then(() => {
     logger.info('Successfully dropped all collections');
     process.exit(0);
   }).catch(err => {
-    logger.error('Unable to dropped all collections', err);
+    logger.error('Unable to drop collections', err);
     process.exit(err);
   });
 }).catch(err => {
