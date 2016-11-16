@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const path = require('path');
 
 /**
 * @name exports
@@ -21,6 +22,10 @@ module.exports = {
     devtool: 'source-map',
     debug: true,
     cache: true,
+    output: {
+      path: path.join(process.cwd(), 'public'),
+      filename: 'js/[name].[hash].js'
+    },
     plugins: [
       new webpack.NoErrorsPlugin()
     ]
