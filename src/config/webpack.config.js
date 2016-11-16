@@ -40,6 +40,4 @@ const makeWebpackConfig = function makeWebpackConfig () {
   });
 };
 
-console.log(makeWebpackConfig());
-
 module.exports = makeWebpackConfig();

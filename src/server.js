@@ -16,4 +16,3 @@ mongoose.connect().then(connection => {
 }).catch(function () {
   process.exit(1);
 });
-

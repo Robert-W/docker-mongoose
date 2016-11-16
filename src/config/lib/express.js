@@ -1,3 +1,5 @@
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
 const methodOverride = require('method-override');
 const compression = require('compression');
 const session = require('express-session');
@@ -6,8 +8,10 @@ const bodyParser = require('body-parser');
 const favicon = require('serve-favicon');
 const passport = require('passport');
 const express = require('express');
+const webpack = require('webpack');
 const helmet = require('helmet');
 const path = require('path');
+const webpackConfig = require(path.resolve('./config/webpack.config'));
 const logger = require(path.resolve('./config/lib/winston'));
 const config = require(path.resolve('./config/config'));
 
@@ -30,6 +34,12 @@ const configureMiddleware = function configureMiddleware (app) {
   app.use(bodyParser.json());
   // Setup methodOverride so I can use put and delete
   app.use(methodOverride());
+  // If were in development mode, add some webpack middleware
+  if (process.env.NODE_ENV === 'development') {
+    const compiler = webpack(webpackConfig);
+    app.use(webpackDevMiddleware(compiler, { stats: { colors: true } }));
+    app.use(webpackHotMiddleware(compiler));
+  }
 };
 
 /**

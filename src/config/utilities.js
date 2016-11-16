@@ -50,11 +50,34 @@ const isUnique = function isUnique (model, fieldname) {
   };
 };
 
+/**
+* @function webpackDevLogger
+* @summary log some output for webpack's dev server
+* @param {string} port - port we are listening to
+* @param {string} public - public directory we are using
+* @return function - a simple logging function
+*/
+const webpackDevLogger = function webpackDevLogger (port, publicPath) {
+  return function () {
+    console.log('[\x1B[34mexpress\x1B[39m] \x1B[1mDev Server\x1B[1m');
+    console.log('\x1B[37m------------------------------\x1B[39m');
+    console.log(`\x1B[1mAccess:\x1B[1m \x1B[35mhttp://localhost:${port}\x1B[39m`);
+    console.log('\x1B[37m------------------------------\x1B[39m');
+    console.log(`[\x1B[34mexpress\x1B[39m] Serving files from \x1B[35m${publicPath}\x1B[39m`);
+    console.log('[\x1B[34mexpress\x1B[39m] \x1B[1mWebpack compiling...\x1B[1m');
+    console.log('\x1B[37m------------------------------\x1B[39m');
+    console.log();
+  };
+};
+
 
 module.exports = {
   validators: {
     isValidPassword: isValidPassword,
     isNotEmpty: isNotEmpty,
     isUnique: isUnique
+  },
+  webpack: {
+    devLogger: webpackDevLogger
   }
 };
