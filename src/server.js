@@ -13,9 +13,5 @@ mongoose.connect().then(connection => {
     app.listen(config.port);
     // Initializing complete
     logger.info('App listening on port', config.port);
-  }, expressError => {
-    process.exit(expressError);
-  });
-}, mongooseError => {
-  process.exit(mongooseError);
-});
+  }, process.exit);
+}, process.exit);

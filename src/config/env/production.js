@@ -1,5 +1,6 @@
 const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
+const path = require('path');
 
 /**
 * @name exports
@@ -23,6 +24,10 @@ module.exports = {
     profile: true,
     postcss: function () {
       return [autoprefixer];
+    },
+    output: {
+      path: path.join(process.cwd(), 'public'),
+      filename: '[name].[hash].js'
     },
     plugins: [
       new webpack.DefinePlugin({ 'process.env': {'NODE_ENV': '"production"'}}),

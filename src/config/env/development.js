@@ -24,7 +24,7 @@ module.exports = {
     cache: true,
     output: {
       path: path.join(process.cwd(), 'public'),
-      filename: 'js/[name].[hash].js'
+      filename: '[name].[hash].js'
     },
     plugins: [
       new webpack.NoErrorsPlugin()

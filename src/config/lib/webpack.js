@@ -14,8 +14,11 @@ const config = require(path.resolve('./config/config'));
 * @return {object}
 */
 const updateAssetMap = function updateAssetMap (compilationStats) {
-  console.dir(compilationStats);
-  console.dir(config);
+  config.assets = Object.keys(compilationStats.assetsByChunkName).reduce((chunks, name) => {
+    const asset = compilationStats.assetsByChunkName[name];
+    chunks[name] = (typeof asset !== 'string') ? asset[0] : asset;
+    return chunks;
+  }, {});
 };
 
 module.exports.getMiddleware = function getMiddleware () {

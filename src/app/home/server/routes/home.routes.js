@@ -1,3 +1,5 @@
+const path = require('path');
+const config = require(path.resolve('./config/config'));
 /**
 * @name exports
 * @static
@@ -11,6 +13,8 @@ module.exports = function (app) {
   * @memberof Router
   */
   app.get('/', (req, res) => {
-    res.render('home');
+    res.render('home', {
+      homeBundle: config.assets.home
+    });
   });
 };

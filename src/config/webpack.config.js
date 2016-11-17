@@ -30,6 +30,8 @@ const makeWebpackConfig = function makeWebpackConfig () {
   const packs = glob.sync(assets.webpack).map(file => require(path.resolve(file)));
   // Merge all the entries together
   const entries = packs.reduce(function (all, pack) { return Object.assign(all, pack.entry); }, {});
+  // Make their paths correct
+  for (const key in entries) { entries[key] = path.resolve(entries[key]); }
   // Generate an array of HtmlWebpackPlugin options
   // const htmlWebpackPlugins = packs.reduce((plugins, pack) => {
   //   return Object.keys(pack.html).map(key => pack.html[key]);
