@@ -8,11 +8,14 @@ logger.info('Initializing Node server');
 mongoose.connect().then(connection => {
   logger.info('Mongoose connected');
   // Initialize express
-  const app = express.init(connection);
-  // Start the app on the configured port
-  app.listen(config.port);
-  // Initializing complete
-  logger.info('App listening on port', config.port);
-}).catch(function () {
-  process.exit(1);
+  express.init(connection).then(app => {
+    // Start the app on the configured port
+    app.listen(config.port);
+    // Initializing complete
+    logger.info('App listening on port', config.port);
+  }, expressError => {
+    process.exit(expressError);
+  });
+}, mongooseError => {
+  process.exit(mongooseError);
 });

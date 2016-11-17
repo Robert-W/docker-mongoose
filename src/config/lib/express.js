@@ -1,5 +1,3 @@
-const webpackDevMiddleware = require('webpack-dev-middleware');
-const webpackHotMiddleware = require('webpack-hot-middleware');
 const methodOverride = require('method-override');
 const compression = require('compression');
 const session = require('express-session');
@@ -8,10 +6,9 @@ const bodyParser = require('body-parser');
 const favicon = require('serve-favicon');
 const passport = require('passport');
 const express = require('express');
-const webpack = require('webpack');
 const helmet = require('helmet');
 const path = require('path');
-const webpackConfig = require(path.resolve('./config/webpack.config'));
+const webpack = require(path.resolve('./config/lib/webpack'));
 const logger = require(path.resolve('./config/lib/winston'));
 const config = require(path.resolve('./config/config'));
 
@@ -36,9 +33,9 @@ const configureMiddleware = function configureMiddleware (app) {
   app.use(methodOverride());
   // If were in development mode, add some webpack middleware
   if (process.env.NODE_ENV === 'development') {
-    const compiler = webpack(webpackConfig);
-    app.use(webpackDevMiddleware(compiler, { stats: { colors: true } }));
-    app.use(webpackHotMiddleware(compiler));
+    const {devMiddleware, hotMiddleware} = webpack.getMiddleware();
+    app.use(devMiddleware);
+    app.use(hotMiddleware);
   }
 };
 
@@ -161,27 +158,44 @@ const loadErrorRoutes = function loadErrorRoutes (app) {
   });
 };
 
+/**
+* @function generateStaticAssets
+* @summary Generate all javascript and css assets for production which also updates the asset map
+* @return {Promise}
+*/
+const generateStaticAssets = function generateStaticAssets () {
+  return webpack.build();
+};
+
 module.exports.init = function init (connection) {
   logger.info('Initializing Express');
-  var app = express();
-  // Configure express middleware
-  configureMiddleware(app);
-  // Configure local variables
-  configureLocalVariables(app);
-  // Configure view engine
-  configureViewEngine(app);
-  // Configure express session
-  configureSession(app, connection);
-  // Configure passport authentication
-  configurePassport(app);
-  // Configure helmet security headers
-  configureHelmetHeaders(app);
-  // Configure static asset path
-  configureStaticAssetPath(app);
-  // Setup valid server routes
-  loadServerRoutes(app);
-  // Setup error routes
-  loadErrorRoutes(app);
-
-  return app;
+  return new Promise((resolve, reject) => {
+    var app = express();
+    // Configure express middleware
+    configureMiddleware(app);
+    // Configure local variables
+    configureLocalVariables(app);
+    // Configure view engine
+    configureViewEngine(app);
+    // Configure express session
+    configureSession(app, connection);
+    // Configure passport authentication
+    configurePassport(app);
+    // Configure helmet security headers
+    configureHelmetHeaders(app);
+    // Configure static asset path
+    configureStaticAssetPath(app);
+    // Setup valid server routes
+    loadServerRoutes(app);
+    // Setup error routes
+    loadErrorRoutes(app);
+    // Generate static assets if production
+    if (process.env.NODE_ENV === 'production') {
+      generateStaticAssets().then(() => {
+        resolve(app);
+      }, reject).catch(reject);
+    } else {
+      resolve(app);
+    }
+  });
 };
