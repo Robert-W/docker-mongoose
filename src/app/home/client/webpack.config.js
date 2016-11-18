@@ -1,6 +1,9 @@
 module.exports = {
   entry: {
-    home: 'app/home/client/entry.js'
+    home: 'app/home/client/js/main.js'
+  },
+  alias: {
+    home: 'app/home/client'
   }
   // html: {
   //   home: {

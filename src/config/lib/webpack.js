@@ -21,23 +21,19 @@ const updateAssetMap = function updateAssetMap (compilationStats) {
   }, {});
 };
 
-module.exports.getMiddleware = function getMiddleware () {
+module.exports.watchAndGetMiddleware = function watchAndGetMiddleware () {
   // Create a compiler
-  const compiler = webpack(webpackConfig, (err, statistics) => {
+  const compiler = webpack(webpackConfig);
+  compiler.plugin('done', statistics => {
     const stats = statistics.toJson();
-    // Check for fatal errors
-    if (err) {
-      logger.error('Fatal compilation error with Webpack', err);
-      return;
-    }
     // Check for soft errors
     if (stats && stats.errors && stats.errors.length > 0) {
-      logger.error('Soft compilation error with Webpack', stats.errors);
+      logger.error('Soft compilation error from Webpack', stats.errors);
       return;
     }
     // Check for warnings
     if (stats && stats.warnings && stats.warnings.length > 0) {
-      logger.warn('Soft compilation error with Webpack', stats.warnings);
+      logger.warn('Compilation warnings from Webpack', stats.warnings);
       return;
     }
     // Update asset hash

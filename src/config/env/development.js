@@ -27,6 +27,7 @@ module.exports = {
       filename: '[name].[hash].js'
     },
     plugins: [
+      new webpack.HotModuleReplacementPlugin(),
       new webpack.NoErrorsPlugin()
     ]
   }

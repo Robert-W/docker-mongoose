@@ -33,7 +33,7 @@ const configureMiddleware = function configureMiddleware (app) {
   app.use(methodOverride());
   // If were in development mode, add some webpack middleware
   if (process.env.NODE_ENV === 'development') {
-    const {devMiddleware, hotMiddleware} = webpack.getMiddleware();
+    const {devMiddleware, hotMiddleware} = webpack.watchAndGetMiddleware();
     app.use(devMiddleware);
     app.use(hotMiddleware);
   }

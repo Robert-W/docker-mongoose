@@ -1,3 +1,4 @@
+const autoprefixer = require('autoprefixer');
 const assets = require('./assets');
 const config = require('./config');
 const path = require('path');
@@ -30,15 +31,36 @@ const makeWebpackConfig = function makeWebpackConfig () {
   const packs = glob.sync(assets.webpack).map(file => require(path.resolve(file)));
   // Merge all the entries together
   const entries = packs.reduce(function (all, pack) { return Object.assign(all, pack.entry); }, {});
+  // Merge all the aliases together
+  const alias = packs.reduce(function (all, pack) { return Object.assign(all, pack.alias); }, {});
   // Make their paths correct
   for (const key in entries) { entries[key] = path.resolve(entries[key]); }
+  for (const key in alias) { alias[key] = path.resolve(alias[key]); }
   // Generate an array of HtmlWebpackPlugin options
   // const htmlWebpackPlugins = packs.reduce((plugins, pack) => {
   //   return Object.keys(pack.html).map(key => pack.html[key]);
   // }, []);
   // Return the webpack config
   return Object.assign({}, config.webpack, {
-    entry: entries
+    entry: entries,
+    resolve: { alias },
+    module: {
+      loaders: [{
+        test: /\.scss$/,
+        loaders: ['style', 'css', 'postcss', 'sass']
+      }, {
+        test: /\.js?$/,
+        loader: 'babel',
+        exclude: /(node_modules)/,
+        query: {
+          presets: ['es2015', 'react', 'stage-0'],
+          plugins: ['transform-runtime']
+        }
+      }]
+    },
+    postcss: function () {
+      return [autoprefixer];
+    }
   });
 };
 
