@@ -47,7 +47,7 @@ module.exports.watchAndGetMiddleware = function watchAndGetMiddleware () {
   };
 };
 
-module.exports.build = function build () {
+module.exports.compileAssets = function compileAssets () {
   return new Promise((resolve, reject) => {
     const compiler = webpack(webpackConfig);
     // Output progress

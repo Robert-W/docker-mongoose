@@ -133,8 +133,15 @@ const configureStaticAssetPath = function configureStaticAssetPath (app) {
 * @param {Express.app} app
 */
 const loadServerRoutes = function loadServerRoutes (app) {
-  config.files.routes.forEach(route => {
-    require(path.resolve(route))(app);
+  return new Promise((resolve, reject) => {
+    try {
+      config.files.routes.forEach(route => {
+        require(path.resolve(route))(app);
+      });
+      resolve();
+    } catch (error) {
+      reject(error);
+    }
   });
 };
 
@@ -158,15 +165,6 @@ const loadErrorRoutes = function loadErrorRoutes (app) {
   });
 };
 
-/**
-* @function generateStaticAssets
-* @summary Generate all javascript and css assets for production which also updates the asset map
-* @return {Promise}
-*/
-const generateStaticAssets = function generateStaticAssets () {
-  return webpack.build();
-};
-
 module.exports.init = function init (connection) {
   logger.info('Initializing Express');
   return new Promise((resolve, reject) => {
@@ -186,16 +184,23 @@ module.exports.init = function init (connection) {
     // Configure static asset path
     configureStaticAssetPath(app);
     // Setup valid server routes
-    loadServerRoutes(app);
-    // Setup error routes
-    loadErrorRoutes(app);
-    // Generate static assets if production
-    if (process.env.NODE_ENV === 'production') {
-      generateStaticAssets().then(() => {
+    loadServerRoutes(app).then(() => {
+      // Setup error routes
+      loadErrorRoutes(app);
+      // Compile static assets for production
+      if (process.env.NODE_ENV === 'production') {
+        webpack.compileAssets().then(() => {
+          resolve(app);
+        }, webpackError => {
+          logger.error('Error compiling static assets', webpackError);
+          reject(webpackError);
+        });
+      } else {
         resolve(app);
-      }, reject).catch(reject);
-    } else {
-      resolve(app);
-    }
+      }
+    }, routeError => {
+      logger.error('Error loading express routes', routeError);
+      reject(routeError);
+    });
   });
 };

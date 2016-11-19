@@ -2,7 +2,6 @@ const nodemon = require('nodemon');
 const path = require('path');
 const logger = require(path.resolve('./config/lib/winston'));
 
-
 nodemon({
   ignore: ['node_modules'],
   script: 'server.js',
