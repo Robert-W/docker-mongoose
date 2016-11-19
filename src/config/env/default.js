@@ -38,6 +38,7 @@ module.exports = {
   },
 
   auth: {
+    trustProxy: true,
     strategy: 'local',
     collection: 'sessions',
     secret: 'asDas34DR42liji!$asdfa@asdf',

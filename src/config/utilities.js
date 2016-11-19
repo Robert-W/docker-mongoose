@@ -2,6 +2,20 @@ const mongoose = require('mongoose');
 const config = require('./config');
 
 /**
+* @function ensureAuthenticated
+* @summary middleware to ensure the user is authenticated
+* @param {Request} req - Express request object
+* @param {Response} res - Express response object
+* @param {Function} next - Next middleware
+*/
+const ensureAuthenticated = function ensureAuthenticated (req, res, next) {
+  if (req.isAuthenticated && req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect('/');
+};
+
+/**
 * @function isValidPassword
 * @summary validate the provided password meets all the requirements
 * @param {string} value
@@ -52,6 +66,7 @@ const isUnique = function isUnique (model, fieldname) {
 
 
 module.exports = {
+  ensureAuthenticated: ensureAuthenticated,
   validators: {
     isValidPassword: isValidPassword,
     isNotEmpty: isNotEmpty,

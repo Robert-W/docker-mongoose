@@ -44,10 +44,6 @@ module.exports = {
         }
       })
     ]
-  },
-
-  auth: {
-    trustProxy: true
   }
 
 };

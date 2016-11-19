@@ -52,21 +52,14 @@ module.exports.build = function build () {
     const compiler = webpack(webpackConfig);
     // Output progress
     compiler.apply(new ProgressPlugin(function (percentage, msg) {
-      const message = Math.floor(percentage * 100) + '% ' + msg.toString();
-      process.stdout.clearLine();
-      process.stdout.cursorTo(0);
-      process.stdout.write(message);
+      logger.info(Math.floor(percentage * 100) + '% ' + msg.toString());
     }));
 
     logger.info('\x1B[1mStarting build script\x1B[22m');
     logger.info('---------------------');
-
     // Start the compilation
     compiler.run((err, statistics) => {
       if (err) { return reject(err); }
-      // Clear standard out
-      process.stdout.clearLine();
-      process.stdout.cursorTo(0);
       // Log some statistics
       logger.info(statistics.toString({
         errorDetails: true,
