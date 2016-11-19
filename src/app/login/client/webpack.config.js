@@ -1,6 +1,6 @@
 module.exports = {
   entry: {
-    login: 'app/login/client/js/main.js'
+    login: 'app/login/client/main.js'
   },
   alias: {
     login: 'app/login/client'
