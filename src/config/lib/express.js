@@ -165,6 +165,21 @@ const loadErrorRoutes = function loadErrorRoutes (app) {
   });
 };
 
+/**
+* @function generateStaticAssets
+* @summary Generate static assets that routes will need to know about to serve js, and css
+*/
+const generateStaticAssets = function generateStaticAssets () {
+  // Middleware takes car of this in development, only need to wait for this in production
+  return new Promise((resolve, reject) => {
+    if (process.env.NODE_ENV !== 'production') {
+      resolve();
+    } else {
+      webpack.compileAssets().then(resolve, reject);
+    }
+  });
+};
+
 module.exports.init = function init (connection) {
   logger.info('Initializing Express');
   return new Promise((resolve, reject) => {
@@ -187,20 +202,17 @@ module.exports.init = function init (connection) {
     loadServerRoutes(app).then(() => {
       // Setup error routes
       loadErrorRoutes(app);
-      // Compile static assets for production
-      if (process.env.NODE_ENV === 'production') {
-        webpack.compileAssets().then(() => {
-          resolve(app);
-        }, webpackError => {
-          logger.error('Error compiling static assets', webpackError);
-          reject(webpackError);
-        });
-      } else {
-        resolve(app);
-      }
+      // Compile static assets the routes will need for production
+      return generateStaticAssets();
     }, routeError => {
       logger.error('Error loading express routes', routeError);
       reject(routeError);
+    }).then(() => {
+      // Resolve the app
+      resolve(app);
+    }, webpackError => {
+      logger.error('Error compiling static assets', webpackError);
+      reject(webpackError);
     });
   });
 };
