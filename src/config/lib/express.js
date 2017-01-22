@@ -183,36 +183,41 @@ const generateStaticAssets = function generateStaticAssets () {
 module.exports.init = function init (connection) {
   logger.info('Initializing Express');
   return new Promise((resolve, reject) => {
-    var app = express();
-    // Configure express middleware
-    configureMiddleware(app);
-    // Configure local variables
-    configureLocalVariables(app);
-    // Configure view engine
-    configureViewEngine(app);
-    // Configure express session
-    configureSession(app, connection);
-    // Configure passport authentication
-    configurePassport(app);
-    // Configure helmet security headers
-    configureHelmetHeaders(app);
-    // Configure static asset path
-    configureStaticAssetPath(app);
-    // Setup valid server routes
-    loadServerRoutes(app).then(() => {
-      // Setup error routes
-      loadErrorRoutes(app);
-      // Compile static assets the routes will need for production
-      return generateStaticAssets();
-    }, routeError => {
-      logger.error('Error loading express routes', routeError);
-      reject(routeError);
-    }).then(() => {
-      // Resolve the app
-      resolve(app);
-    }, webpackError => {
-      logger.error('Error compiling static assets', webpackError);
-      reject(webpackError);
-    });
+    try {
+      var app = express();
+      // Configure express middleware
+      configureMiddleware(app);
+      // Configure local variables
+      configureLocalVariables(app);
+      // Configure view engine
+      configureViewEngine(app);
+      // Configure express session
+      configureSession(app, connection);
+      // Configure passport authentication
+      configurePassport(app);
+      // Configure helmet security headers
+      configureHelmetHeaders(app);
+      // Configure static asset path
+      configureStaticAssetPath(app);
+      // Setup valid server routes
+      loadServerRoutes(app).then(() => {
+        // Setup error routes
+        loadErrorRoutes(app);
+        // Compile static assets the routes will need for production
+        return generateStaticAssets();
+      }, routeError => {
+        logger.error('Error loading express routes', routeError);
+        reject(routeError);
+      }).then(() => {
+        // Resolve the app
+        resolve(app);
+      }, webpackError => {
+        logger.error('Error compiling static assets', webpackError);
+        reject(webpackError);
+      });
+    } catch (initError) {
+      logger.error('Error initializing express', initError);
+      reject(initError);
+    }
   });
 };

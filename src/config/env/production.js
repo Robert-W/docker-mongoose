@@ -42,6 +42,11 @@ module.exports = {
           comments: false,
           screw_ie8: true
         }
+      }),
+      new webpack.LoaderOptionsPlugin({
+        options: {
+          postcss: [autoprefixer]
+        }
       })
     ]
   }

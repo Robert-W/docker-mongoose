@@ -1,3 +1,4 @@
+const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
 const path = require('path');
 
@@ -20,7 +21,6 @@ module.exports = {
 
   webpack: {
     devtool: 'source-map',
-    debug: true,
     cache: true,
     output: {
       path: path.join(process.cwd(), 'public'),
@@ -28,7 +28,12 @@ module.exports = {
     },
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
-      new webpack.NoErrorsPlugin()
+      new webpack.NoEmitOnErrorsPlugin(),
+      new webpack.LoaderOptionsPlugin({
+        options: {
+          postcss: [autoprefixer]
+        }
+      })
     ]
   }
 

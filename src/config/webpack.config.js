@@ -1,4 +1,3 @@
-const autoprefixer = require('autoprefixer');
 const assets = require('./assets');
 const config = require('./config');
 const path = require('path');
@@ -45,21 +44,18 @@ const makeWebpackConfig = function makeWebpackConfig () {
     entry: entries,
     resolve: { alias },
     module: {
-      loaders: [{
+      rules: [{
         test: /\.scss$/,
-        loaders: ['style', 'css', 'postcss', 'sass']
+        loaders: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader']
       }, {
         test: /\.js?$/,
-        loader: 'babel',
+        loader: 'babel-loader',
         exclude: /(node_modules)/,
         query: {
           presets: ['es2015', 'react', 'stage-0'],
           plugins: ['transform-runtime']
         }
       }]
-    },
-    postcss: function () {
-      return [autoprefixer];
     }
   });
 };
