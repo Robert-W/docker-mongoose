@@ -8,7 +8,9 @@ export default class Page extends Component {
     return (
       <div className='app'>
         <Header />
-        {this.props.children}
+        <div className='app__body'>
+          {this.props.children}
+        </div>
       </div>
     );
   }
