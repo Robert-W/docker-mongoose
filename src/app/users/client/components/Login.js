@@ -1,6 +1,6 @@
 import Page from 'shared/components/Page';
 import React, {Component} from 'react';
-import 'login/css/login.scss';
+import 'users/css/login.scss';
 
 export default class Login extends Component {
 
