@@ -20,12 +20,14 @@ const UserQueryType = new graphql.GraphQLObjectType({
   description: 'User Queries',
   fields: {
     user: {
-      type: UserType,
+      type: new graphql.GraphQLList(UserType),
       args: {
         _id: { type: graphql.GraphQLString }
       },
       resolve: (root, args) => {
-        return people[args._id];
+        return args._id ?
+          [people.find(user => user._id === args._id)] :
+          people;
       }
     }
   }

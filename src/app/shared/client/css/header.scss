@@ -1,0 +1,11 @@
+// Import base css
+@import './_base';
+
+.app__header {
+  box-shadow: 0 6px 8px $light-gray;
+  background-color: $theme-header;
+  position: absolute;
+  height: 60px;
+  width: 100%;
+  top: 0;
+}
