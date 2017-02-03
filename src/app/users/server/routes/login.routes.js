@@ -1,5 +1,4 @@
-const path = require('path');
-const config = require(path.resolve('./config/config'));
+const controller = require('../controllers/login.controller');
 /**
 * @name exports
 * @static
@@ -8,11 +7,8 @@ const config = require(path.resolve('./config/config'));
 module.exports = function (app) {
   /**
   * @name /login
+  * @see login.controller
   * @memberof Router
   */
-  app.get('/', (req, res) => {
-    res.render('login', {
-      loginjs: config.assets.login
-    });
-  });
+  app.get('/', controller.login);
 };

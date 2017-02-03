@@ -40,15 +40,39 @@ const authenticateAndLogin = function authenticateAndLogin (strategy, req, res, 
   })(req, res, next);
 };
 
+/**
+* @function signout
+* @summary sign the user out
+* @name exports.signout
+* @static
+* @param {User} user
+* @param {Response} res - Express response object
+*/
 exports.signout = function signout (req, res) {
   req.logout();
   res.redirect('/');
 };
 
+/**
+* @function signin
+* @summary sign the user to the in
+* @name exports.signin
+* @static
+* @param {User} user
+* @param {Response} res - Express response object
+*/
 exports.signin = function signin (req, res, next) {
   authenticateAndLogin('local', req, res, next);
 };
 
+/**
+* @function signup
+* @summary create a new user and then log them in
+* @name exports.signup
+* @static
+* @param {User} user
+* @param {Response} res - Express response object
+*/
 exports.signup = function signup (req, res) {
   const user = new User(User.makeCopy(res.body));
   user.save(err => {
@@ -61,6 +85,14 @@ exports.signup = function signup (req, res) {
   });
 };
 
+/**
+* @function forgot
+* @summary send the user a link to reset their password
+* @name exports.forgot
+* @static
+* @param {User} user
+* @param {Response} res - Express response object
+*/
 exports.forgot = function forgot (req, res) {
   res.end('Feature coming soon');
 };

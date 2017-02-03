@@ -1,4 +1,4 @@
-const user = require('../controllers/user.controller');
+const controller = require('../controllers/user.controller');
 const schemas = require('../schemas/user.schema');
 const graphqlHTTP = require('express-graphql');
 const path = require('path');
@@ -26,27 +26,27 @@ module.exports = function (app) {
   * @see user.controller
   * @memberof Router
   */
-  app.route('/auth/signout').get(user.signout);
+  app.route('/auth/signout').get(controller.signout);
 
   /**
   * @name /auth/signin
   * @see user.controller
   * @memberof Router
   */
-  app.route('/auth/signin').post(user.signin);
+  app.route('/auth/signin').post(controller.signin);
 
   /**
   * @name /auth/signup
   * @see user.controller
   * @memberof Router
   */
-  app.route('/auth/signup').post(user.signup);
+  app.route('/auth/signup').post(controller.signup);
 
   /**
   * @name /auth/forgot
   * @see user.controller
   * @memberof Router
   */
-  app.route('/auth/forgot').post(user.forgot);
+  app.route('/auth/forgot').post(controller.forgot);
 
 };

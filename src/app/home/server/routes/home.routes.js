@@ -1,6 +1,6 @@
 const path = require('path');
+const controller = require('../controllers/home.controller');
 const utils = require(path.resolve('./config/utilities'));
-const config = require(path.resolve('./config/config'));
 /**
 * @name exports
 * @static
@@ -11,9 +11,5 @@ module.exports = function (app) {
   * @name /login
   * @memberof Router
   */
-  app.get('/home', utils.ensureAuthenticated, (req, res) => {
-    res.render('home', {
-      homejs: config.assets.home
-    });
-  });
+  app.get('/home', utils.ensureAuthenticated, controller.home);
 };
