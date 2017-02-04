@@ -5,9 +5,15 @@ export default class Header extends Component {
 
   render () {
     return (
-      <div className='app__header'>
-
-      </div>
+      <header className='app__header'>
+        <div className='inner'>
+          <nav className='app__navigation'>
+            <ul className='app__navigation-list'>
+              <li><a href='/auth/signout' target='_self'>Logout</a></li>
+            </ul>
+          </nav>
+        </div>
+      </header>
     );
   }
 }
