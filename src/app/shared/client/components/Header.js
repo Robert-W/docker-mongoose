@@ -9,7 +9,9 @@ export default class Header extends Component {
         <div className='inner'>
           <nav className='app__navigation'>
             <ul className='app__navigation-list'>
-              <li><a href='/auth/signout' target='_self'>Logout</a></li>
+              <li className='app__navigation-list__item'>
+                <a href='/auth/signout' target='_self'>Logout</a>
+              </li>
             </ul>
           </nav>
         </div>

@@ -14,9 +14,9 @@ const login = function login (user, req, res) {
   req.login(user, err => {
     if (err) {
       logger.error('req.login failed', err);
-      res.status(400).send(err);
+      res.status(400).send({ error: true, message: err.message });
     }
-    res.jsonp(User.makeCopy(user));
+    res.jsonp({ success: true });
   });
 };
 
