@@ -27,22 +27,6 @@ options.iconClass: String - nil
 */
 
 const styles = {
-  container: {
-    'position': 'fixed',
-    'height': 'auto'
-  },
-  toast: {
-    'boxShadow': '0 4px 8px #B0BEC5',
-    'borderRadius': '5px',
-    'display': 'flex',
-    'width': '300px'
-  },
-  iconContainer: {
-    'padding': '10px',
-    'width': '44px'
-  },
-
-
   bottomRight: {
     'bottom': '20px',
     'right': '20px'
@@ -58,6 +42,9 @@ const styles = {
   topLeft: {
     'top': '20px',
     'left': '20px'
+  },
+  modal: {
+
   }
 };
 
@@ -89,56 +76,85 @@ const getPlacementStyles = function getPlacementStyles (placement) {
   }
 };
 
-const toast = ({
-  key,
-  type,
-  title,
-  message,
-  actions,
-  duration,
-  onRemove,
-  iconClass = ''
-}) => {
-  // const toastStyle = Object.assign({}, styles.toast, { background: getBackgroundColor(type) });
-  // const iconContainerStyle = Object.assign({}, styles.iconContainer);
+const ANIMATION_DURATION = 500;
+const MOUSE_OUT_DURATION = 1000;
 
-  const clear = function clear () {
-    onRemove(key);
+class Toast extends Component {
+
+  componentDidMount () {
+    const { container } = this.refs;
+    const { duration } = this.props;
+
+    requestAnimationFrame(() => {
+      container.classList.add('opaque');
+      this.timer = setTimeout(this.clear, duration);
+    });
+  }
+
+  componentWillMount () {
+    this.transitionTimers = [];
+  }
+
+  componentWillUnmount () {
+    if (this.timer) {
+      clearTimeout(this.timer);
+    }
+    this.transitionTimers.forEach(timeout => clearTimeout(timeout));
+  }
+
+  clear = () => {
+    const { id, onRemove } = this.props;
+    const { container } = this.refs;
+
+    container.classList.remove('opaque');
+    setTimeout(function () {
+      onRemove(id);
+    }, ANIMATION_DURATION);
   };
 
-  let timer = setTimeout(clear, duration);
-
-  const onMouseEnter = () => {
-    clearTimeout(timer);
+  onMouseEnter = () => {
+    if (this.timer) {
+      clearTimeout(this.timer);
+    }
   };
 
-  const onMouseLeave = () => {
-    timer = setTimeout(clear, 1000);
+  onMouseLeave = () => {
+    this.timer = setTimeout(this.clear, MOUSE_OUT_DURATION);
   };
 
-  return (
-    <div
-      key={key}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      className={`toaster__toast ${type}`}>
-      <div className='toaster__toast-icon-container'>
-        <div className={`toaster__toast-icon ${iconClass}`}></div>
+  render () {
+    const {
+      type,
+      title,
+      message,
+      actions,
+      iconClass = ''
+    } = this.props;
+
+    return (
+      <div
+        ref='container'
+        onMouseEnter={this.onMouseEnter}
+        onMouseLeave={this.onMouseLeave}
+        className={`toaster__toast ${type}`}>
+        <div className='toaster__toast-icon-container'>
+          <div className={`toaster__toast-icon ${iconClass}`}></div>
+        </div>
+        <div className='toaster__toast-content-container'>
+          <div className='toaster__toast-title'>{title}</div>
+          <div className='toaster__toast-message'>{message}</div>
+          <div className='toaster__toast-actions'>{actions}</div>
+        </div>
       </div>
-      <div className='toaster__toast-content-container'>
-        <div className='toaster__toast-title'>{title}</div>
-        <div className='toaster__toast-message'>{message}</div>
-        <div className='toaster__toast-actions'>{actions}</div>
-      </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 const ToasterDefaults = {
   placement: 'top-right',
   duplicates: true,
   disableStyles: false,
-  duration: 4000,
+  duration: 5000,
   closable: true
 };
 
@@ -156,14 +172,13 @@ export default class Toaster extends Component {
 
   toast = (params) => {
     const options = Object.assign({
-      key: uuidGenerator(),
+      id: uuidGenerator(),
       onRemove: this.removeToast,
       duration: this.defaults.duration
     }, params);
     const currentMessages = this.state.messages.slice();
-    const newMessage = toast(options);
 
-    currentMessages.unshift(newMessage);
+    currentMessages.unshift(<Toast key={options.id} {...options} />);
     this.setState({ messages: currentMessages });
   };
 
